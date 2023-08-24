@@ -18,12 +18,47 @@ public class AppBd {
         try (var conn = getConnection();) {
             listarEstados(conn);
             localizarEstados(conn, "TO");
-            listarDadosTabela(conn, "cliente");
-            var produto = new Produto();
-            inserirProduto(produto);
+            var marca = new Marca(1L);
+            var produto = new Produto(1L, "produto teste", marca, 100.0);
+            inserirProduto(conn, produto);
+            deletarProduto(conn, 201L);
+            listarDadosTabela(conn, "produto");
 
         } catch (Exception e) {
             System.out.println("Não foi possível conectar ao banco de dados");
+        }
+
+    }
+
+    private void deletarProduto(Connection conn, Long id) {
+        var sql = "DELETE FROM produto WHERE id = ?";
+        try {
+            var statement = conn.prepareStatement(sql);
+            statement.setLong(1, id);
+            if(statement.executeUpdate() == 1){
+                System.out.println("Produto deletado com sucesso!");
+            }else{
+                System.out.println("Houve problema na deleção");
+            }
+        
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+
+    }
+
+    private void inserirProduto(Connection conn, Produto produto) {
+        var sql = "INSERT INTO produto (marca_id, nome, valor) VALUES (?, ?, ?)";
+        try {
+            var statement = conn.prepareStatement(sql);
+            statement.setLong(1, produto.getMarca().getId());
+            statement.setString(2, produto.getName());
+            statement.setDouble(3, produto.getValor());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }

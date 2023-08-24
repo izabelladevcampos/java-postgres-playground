@@ -5,11 +5,13 @@ public class Produto {
     private Long id;
     private String name;
     private Marca marca;
+    private Double valor;
 
-    public Produto(Long id, String name, Marca marca) {
+    public Produto(Long id, String name, Marca marca, Double valor) {
         this.id = id;
         this.name = name;
         this.marca = marca;
+        this.valor = valor;
     }
 
     public Long getId() {
@@ -37,4 +39,13 @@ public class Produto {
         this.marca = marca;
     }
 
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    
 }

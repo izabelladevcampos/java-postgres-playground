@@ -5,6 +5,10 @@ public class Marca {
     private Long id;
     private String name;
 
+    public Marca(Long id) {
+        this.id = id;
+    }
+
     public Marca(Long id, String name) {
         this.id = id;
         this.name = name;
