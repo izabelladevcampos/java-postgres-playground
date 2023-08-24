@@ -33,13 +33,14 @@ public class AppBd {
 
     private void atualizarProduto(Connection conn, Produto produto) {
 
-        var sql = "UPDATE produto SET marca_id = ?, nome = ?, valor = ?";
+        var sql = "UPDATE produto SET marca_id = ?, nome = ?, valor = ? WHERE id = ?";
         try {
 
             var statement = conn.prepareStatement(sql);
-            statement.setLong(1, produto.getMarca().getId());
-            statement.setString(2, produto.getName());
-            statement.setDouble(3, produto.getValor());
+            statement.setLong(1, 2L);
+            statement.setString(2, "produto.getName()");
+            statement.setDouble(3, 200.0);
+            statement.setLong(4, 202L);
             statement.executeUpdate();
 
         } catch (SQLException e) {
