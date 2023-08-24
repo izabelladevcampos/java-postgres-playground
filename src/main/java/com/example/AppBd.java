@@ -3,7 +3,6 @@ package com.example;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class AppBd {
 
@@ -16,22 +15,43 @@ public class AppBd {
     }
 
     public AppBd() {
-        carregarDriverJdbc();
-        listarEstados();
-        localizarEstados("TO");
+        try (var conn = getConnection();) {
+            listarEstados();
+            localizarEstados(conn, "TO");
+
+        } catch (Exception e) {
+            System.out.println("Não foi possível conectar ao banco de dados");
+        }
+
     }
 
-    private void localizarEstados(String string) {
+    private void localizarEstados(Connection conn, String uf) {
+
+        try {
+            var sql = "SELECT * FROM estado WHERE uf = ?";
+            var statement = conn.prepareStatement(sql);
+            System.out.println(sql);
+            System.out.println(uf);
+            statement.setString(1, uf);
+            var result = statement.executeQuery();
+            if (result.next()) {
+                System.out.printf("----------Id: %d Nome: %s UF: %s\n", result.getInt("id"), result.getString("nome"),
+                        result.getString("uf"));
+            } else {
+                System.out.println("Não foi possível realizar consulta!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
     private void listarEstados() {
 
-        Statement statement = null;
-
         try (var conn = getConnection()) {
             System.out.println("Conexão realizada com sucesso!");
-            statement = conn.createStatement();
+            var statement = conn.createStatement();
             var result = statement.executeQuery("select * from estado");
             while (result.next()) {
                 System.out.printf("Id: %d Nome: %s UF: %s\n", result.getInt("id"), result.getString("nome"),
@@ -40,10 +60,7 @@ public class AppBd {
             ;
 
         } catch (SQLException e) {
-            if (statement == null)
-                System.err.println("Não foi possível conectar ao banco de dados: " + e.getMessage());
-            else
-                System.err.println("Não foi possível realizar a consulta no banco de dados: " + e.getMessage());
+            System.err.println("Não foi possível realizar a consulta no banco de dados: " + e.getMessage());
         }
     }
 
@@ -51,11 +68,4 @@ public class AppBd {
         return DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
     }
 
-    private void carregarDriverJdbc() {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Não foi possível encontrar a classe: " + e.getMessage());
-        }
-    }
 }
