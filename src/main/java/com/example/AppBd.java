@@ -16,8 +16,9 @@ public class AppBd {
 
     public AppBd() {
         try (var conn = getConnection();) {
-            listarEstados();
+            listarEstados(conn);
             localizarEstados(conn, "TO");
+            listarDadosTabela(conn, "cliente");
 
         } catch (Exception e) {
             System.out.println("Não foi possível conectar ao banco de dados");
@@ -25,17 +26,41 @@ public class AppBd {
 
     }
 
+    private void listarDadosTabela(Connection conn, String tabela) {
+        var sql = "SELECT * FROM " + tabela;
+        try {
+            var statement = conn.createStatement();
+            var result = statement.executeQuery(sql);
+
+            var metadata = result.getMetaData();
+            int cols = metadata.getColumnCount();
+
+            for (int i = 1; i <= cols; i++) {
+                System.out.printf("%-25s |", metadata.getColumnName(i));
+            }
+            System.out.println();
+            while (result.next()) {
+                for (int i = 1; i <= cols; i++) {
+                    System.out.printf("%-25s |", result.getString(i));
+                }
+                System.out.println();
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private void localizarEstados(Connection conn, String uf) {
 
         try {
             var sql = "SELECT * FROM estado WHERE uf = ?";
             var statement = conn.prepareStatement(sql);
-            System.out.println(sql);
-            System.out.println(uf);
             statement.setString(1, uf);
             var result = statement.executeQuery();
             if (result.next()) {
-                System.out.printf("----------Id: %d Nome: %s UF: %s\n", result.getInt("id"), result.getString("nome"),
+                System.out.printf("-----Pesquisa-----Id: %d Nome: %s UF: %s\n", result.getInt("id"),
+                        result.getString("nome"),
                         result.getString("uf"));
             } else {
                 System.out.println("Não foi possível realizar consulta!");
@@ -47,9 +72,11 @@ public class AppBd {
 
     }
 
-    private void listarEstados() {
+    private void listarEstados(Connection conn) {
 
-        try (var conn = getConnection()) {
+        try {
+
+            conn = getConnection();
             System.out.println("Conexão realizada com sucesso!");
             var statement = conn.createStatement();
             var result = statement.executeQuery("select * from estado");
