@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.example.model.Marca;
+import com.example.model.Produto;
+
 public class AppBd {
 
     private static final String PASSWORD = "";
@@ -21,7 +24,7 @@ public class AppBd {
             var marca = new Marca(1L);
             var produto = new Produto(1L, "produto teste", marca, 100.0);
             inserirProduto(conn, produto);
-            deletarProduto(conn, 201L);
+            deletarProduto(conn, 203L);
             atualizarProduto(conn, produto);
             listarDadosTabela(conn, "produto");
 
