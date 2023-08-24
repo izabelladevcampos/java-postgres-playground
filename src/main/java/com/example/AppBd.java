@@ -19,6 +19,8 @@ public class AppBd {
             listarEstados(conn);
             localizarEstados(conn, "TO");
             listarDadosTabela(conn, "cliente");
+            var produto = new Produto();
+            inserirProduto(produto);
 
         } catch (Exception e) {
             System.out.println("Não foi possível conectar ao banco de dados");
