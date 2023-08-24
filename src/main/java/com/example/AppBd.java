@@ -22,12 +22,29 @@ public class AppBd {
             var produto = new Produto(1L, "produto teste", marca, 100.0);
             inserirProduto(conn, produto);
             deletarProduto(conn, 201L);
+            atualizarProduto(conn, produto);
             listarDadosTabela(conn, "produto");
 
         } catch (Exception e) {
             System.out.println("Não foi possível conectar ao banco de dados");
         }
 
+    }
+
+    private void atualizarProduto(Connection conn, Produto produto) {
+
+        var sql = "UPDATE produto SET marca_id = ?, nome = ?, valor = ?";
+        try {
+
+            var statement = conn.prepareStatement(sql);
+            statement.setLong(1, produto.getMarca().getId());
+            statement.setString(2, produto.getName());
+            statement.setDouble(3, produto.getValor());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void deletarProduto(Connection conn, Long id) {
