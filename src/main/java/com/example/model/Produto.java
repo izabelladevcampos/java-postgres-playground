@@ -3,13 +3,13 @@ package com.example.model;
 public class Produto {
 
     private Long id;
-    private String name;
+    private String nome;
     private Marca marca;
     private Double valor;
 
-    public Produto(Long id, String name, Marca marca, Double valor) {
+    public Produto(Long id, String nome, Marca marca, Double valor) {
         this.id = id;
-        this.name = name;
+        this.nome = nome;
         this.marca = marca;
         this.valor = valor;
     }
@@ -23,12 +23,12 @@ public class Produto {
 
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Marca getMarca() {
@@ -47,5 +47,4 @@ public class Produto {
         this.valor = valor;
     }
 
-    
 }
