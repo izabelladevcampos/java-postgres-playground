@@ -1,15 +1,11 @@
-package com.example.model;
+package com.example.primeiro.model;
 
-public class Marca {
+public class RegiaoGeografica {
 
     private Long id;
     private String name;
 
-    public Marca(Long id) {
-        this.id = id;
-    }
-
-    public Marca(Long id, String name) {
+    public RegiaoGeografica(Long id, String name) {
         this.id = id;
         this.name = name;
     }

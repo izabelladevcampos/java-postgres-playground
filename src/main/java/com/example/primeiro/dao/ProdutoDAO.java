@@ -1,9 +1,9 @@
-package com.example.dao;
+package com.example.primeiro.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.example.model.Produto;
+import com.example.primeiro.model.Produto;
 
 public class ProdutoDAO {
 

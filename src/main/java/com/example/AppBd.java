@@ -1,11 +1,11 @@
 package com.example;
 
-import com.example.dao.ConnectionManager;
-import com.example.dao.DAO;
-import com.example.dao.EstadoDAO;
-import com.example.dao.ProdutoDAO;
-import com.example.model.Marca;
-import com.example.model.Produto;
+import com.example.primeiro.dao.ConnectionManager;
+import com.example.primeiro.dao.DAO;
+import com.example.primeiro.dao.EstadoDAO;
+import com.example.primeiro.dao.ProdutoDAO;
+import com.example.primeiro.model.Marca;
+import com.example.primeiro.model.Produto;
 
 public class AppBd {
 
@@ -14,7 +14,7 @@ public class AppBd {
     }
 
     public AppBd() {
-        try (var conn = ConnectionManager.getConnection();) {
+        try (var conn = ConnectionManager.getConnection()) {
 
             var estadoDAO = new EstadoDAO(conn);
             estadoDAO.listar();
