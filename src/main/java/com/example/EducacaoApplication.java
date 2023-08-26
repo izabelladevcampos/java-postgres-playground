@@ -20,11 +20,13 @@ public class EducacaoApplication {
             alunoDAO.inserirNome(aluno);
             System.out.println("Aluno inserido com sucesso!");
             
+            alunoDAO.inserirNota(1, 9, 15);
+
         } catch (SQLException e) {
             System.err.println("Erro ao tentar conectar ao banco de dados!");
 
         } catch (RuntimeException e) {
-            System.err.println("Não foi possível inserir o aluno no banco de dados");
+            System.err.println(e.getMessage());
         }
 
     }

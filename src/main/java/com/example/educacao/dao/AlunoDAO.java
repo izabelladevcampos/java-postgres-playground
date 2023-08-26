@@ -21,23 +21,35 @@ public class AlunoDAO {
             var sql = "INSERT INTO aluno (nome) VALUES (?)";
             var statement = conn.prepareStatement(sql);
             statement.setString(1, aluno.getNome());
-            statement.executeUpdate();
+            statement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Não foi possível inserir o aluno!", e);
         }
 
     }
 
-    public void inserirNota(int idDisciplina, double nota){
-        
+    public void inserirNota(int idDisciplina, double nota, int matricula) {
+
+        if (idDisciplina <= 0 || idDisciplina > 3) {
+            throw new IllegalArgumentException("Id da disciplinas é entre  1 e 3");
+        }
+
         try {
-            var sql = "UPDATE aluno SET nota" + "?";
+            var sql = "UPDATE aluno SET nota" + idDisciplina + " = ? WHERE matricula = ?";
             conn = ConnectionManager.getConnection();
             var statement = conn.prepareStatement(sql);
-            statement.setString(1, String.valueOf(idDisciplina));
+            statement.setDouble(1, nota);
+            statement.setInt(2, matricula);
+            var result = statement.executeUpdate();
+            System.out.println(result);
+            if (result == 1) {
+                System.out.println("Nota inserida com sucesso!");
+            } else {
+                System.out.println("Nota não inserida!");
+            }
         } catch (SQLException e) {
-           throw new RuntimeException();
+            throw new RuntimeException("Não foi possível inserir a nota!", e);
         }
-    } 
+    }
 
 }

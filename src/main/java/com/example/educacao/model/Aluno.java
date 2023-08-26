@@ -4,7 +4,9 @@ public class Aluno {
 
     private Integer matricula;
     private String nome;
-    private Double nota1, nota2, nota3;
+    private Double nota1;
+    private Double nota2;
+    private Double nota3;
 
     public Aluno(Integer matricula, String nome, Double nota1, Double nota2, Double nota3) {
         this.matricula = matricula;
